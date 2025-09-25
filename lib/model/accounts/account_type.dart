@@ -1,5 +1,0 @@
-
-enum AccountType {
-  savingsAccount, 
-  checkingAccount
-}

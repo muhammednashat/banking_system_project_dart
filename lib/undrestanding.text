@@ -1,0 +1,6 @@
+1 -  if (amount > balance) {
+     throw Exception("Insufficient funds");
+     }
+
+
+   

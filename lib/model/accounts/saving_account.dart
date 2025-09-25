@@ -1,5 +1,5 @@
 import 'package:banking_system_project_dart/model/accounts/account.dart';
-import 'package:banking_system_project_dart/model/accounts/account_type.dart';
+import 'package:banking_system_project_dart/model/accounts/transaction.dart';
 
 class SavingAccount extends Account{
   SavingAccount(String customerName, double balance)
@@ -10,37 +10,46 @@ class SavingAccount extends Account{
       );
 
   @override
-  bool deposit(double amount) {
+   Future<void> deposit(double amount) async{
+    var status = Status.success;
    try{
-   isAmountValid(amount);
+   await isAmountValid(amount);
+   print('Loading............');
    setBalance(amount);
+   await Future.delayed(Duration(seconds: 10));
    print("Your balance is increased now");
-   return true;
    }catch(e){
     print(e);
+    status = Status.failed;
     rethrow;
    }  
- 
+    finally{
+    saveTransaction(amount, TypeTransaction.deposit, status); 
+    }
   }
 
   @override
-  bool withdraw(double amount) {
+  Future<void> withdraw(double amount) async{
+    Status status = Status.success;
     try {
-      isAmountValid(amount);
+     await isAmountValid(amount);
      if (amount > balance) {
      throw Exception("Insufficient funds");
      }
-
+      print('Loading............');
       decreaseBalance(amount);
       print("Wait for your money....");
-      Future.delayed(Duration(microseconds: 500));
+      await Future.delayed(Duration(seconds: 10));
       print("Your money is ready ");
-      return true;
+      
     } catch (e) {
-      print(e);
+      status = Status.failed;
+      print("withdraw at savingAccount $e");
       rethrow;
     }
-  
-  
+   finally{
+    saveTransaction(amount, TypeTransaction.withdraw, status); 
+    }
   }
+  
 }
