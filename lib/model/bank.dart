@@ -1,9 +1,17 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:banking_system_project_dart/model/accounts/account.dart';
 
-class Bank {
+
+ class Bank {
   final BankSchedual scheduler;
+   SendPort? sendPort; 
+
+void atachedPort(SendPort sendPort){
+sendPort = sendPort;
+}
+
   Bank(this.scheduler);
   List<Account> accounts = [];
 
@@ -13,10 +21,18 @@ class Bank {
     }
   }
 
+  void test( )async {
+    print("before");
+    await Future.delayed(Duration(seconds: 2));
+    print("after");
+    sendPort?.send("I am done");
+  }
+
   Future<void> schedualMothlyCycle() async {
     await scheduler.startMonthlyCycle(accounts);
   }
 }
+
 
 
 
