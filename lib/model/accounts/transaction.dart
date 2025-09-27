@@ -1,7 +1,10 @@
 
 enum TypeTransaction{
+  newAccount,
   deposit,
-  withdraw
+  withdraw,
+  interest,
+  fee,
 }
 
 enum Status{
@@ -22,7 +25,9 @@ Transaction(this.accountId, this.amount, this.balanceAfter ,this.status, this.ty
 
 @override
   String toString() {
-    return 'Transaction(accountId: $accountId, amount: $amount, balanceAfter: $balanceAfter, status: $status, type: $type, dateTime: $dateTime)';
+    // return 'Transaction( amount: $amount, balanceAfter: $balanceAfter, type: $type, )';
+    // return 'Transaction( amount: $amount, balanceAfter: $balanceAfter, type: $type, )';
+    return 'Transaction( type: $type, amount: $amount, balanceAfter: $balanceAfter, )';
   }
 
 }

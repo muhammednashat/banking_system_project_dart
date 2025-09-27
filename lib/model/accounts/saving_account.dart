@@ -14,10 +14,8 @@ class SavingAccount extends Account{
     var status = Status.success;
    try{
    await isAmountValid(amount);
-   print('Loading............');
    setBalance(amount);
    await Future.delayed(Duration(seconds: 10));
-   print("Your balance is increased now");
    }catch(e){
     print(e);
     status = Status.failed;
@@ -36,20 +34,26 @@ class SavingAccount extends Account{
      if (amount > balance) {
      throw Exception("Insufficient funds");
      }
-      print('Loading............');
       decreaseBalance(amount);
-      print("Wait for your money....");
       await Future.delayed(Duration(seconds: 10));
-      print("Your money is ready ");
       
     } catch (e) {
       status = Status.failed;
-      print("withdraw at savingAccount $e");
       rethrow;
     }
    finally{
     saveTransaction(amount, TypeTransaction.withdraw, status); 
     }
   }
+  
+  @override
+  void applyInterestOrFee() {
+    final interst = balance * 5 / 100;
+    setBalance(interst);
+    saveTransaction(interst, TypeTransaction.interest, Status.success); 
+
+  }
+  
+ 
   
 }
